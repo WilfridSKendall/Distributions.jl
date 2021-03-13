@@ -115,7 +115,7 @@ rand(rng::AbstractRNG, d::Laplace) =
 #### Fitting
 # First, the corrected maximum-likelihood estimator, using
 # maximum likelihood for both location and scale.
-function fit_mle_true(::Type{<:Laplace}, x::Array)
+function fit_mle(::Type{<:Laplace}, x::Array)
     a = median(x)
     Laplace(a, mean(abs.(x.-a)))
 end
