@@ -123,7 +123,7 @@ end
 # Second, the corrected hybrid maximum-likelihood estimator, 
 # using maximum likelihood for location and and scaled
 # mean absolute deviation for scale.
-function fit_mle_corrected(::Type{<:Laplace}, x::Array)
+function fit_mle_hybrid(::Type{<:Laplace}, x::Array)
     xc = copy(x)
     a = median(xc)
     Laplace(a, StatsBase.mad!(xc, center=a, normalize=false) / log(2))
