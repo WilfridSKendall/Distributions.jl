@@ -113,9 +113,19 @@ rand(rng::AbstractRNG, d::Laplace) =
 
 
 #### Fitting
-
+# First, the corrected maximum-likelihood estimator, using
+# maximum likelihood for both location and scale.
 function fit_mle(::Type{<:Laplace}, x::Array)
-    xc = copy(x)
-    a = median!(xc)
-    Laplace(a, StatsBase.mad!(xc, center=a))
-end
+xc = copy(x)
+a = StatsBase.median!(xc)
+Laplace(a, mean(abs.(x.­a)))
+end ;
+
+# Second, the corrected hybrid maximum-likelihood estimator, 
+# using maximum likelihood for location and and scaled
+# mean absolute deviation for scale.
+function fit_mle_hybrid(::Type{<:Laplace}, x::Array)
+xc = copy(x)
+a = median(xc)
+Laplace(a, StatsBase.mad!(xc, center=a, normalize=false) / log(2))
+end ;
